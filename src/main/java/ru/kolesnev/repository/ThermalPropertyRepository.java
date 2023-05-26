@@ -17,4 +17,11 @@ public interface ThermalPropertyRepository extends JpaRepository<ThermalProperty
             WHERE tp.thermalPropertyId.isolation.id = :id
             """)
     List<ThermalProperty> findAllThermalPropertyByIsolationID(UUID id);
+
+    @Query(value = """
+            SELECT tp
+            FROM ThermalProperty tp
+            WHERE tp.thermalPropertyId.isolation.id in :ids
+            """)
+    List<ThermalProperty> findAllThermalPropertyByIsolationIDs(List<UUID> ids);
 }

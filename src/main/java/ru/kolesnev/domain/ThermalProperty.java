@@ -25,7 +25,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "thermal_property")
 @Entity
-public class ThermalProperty {
+public class ThermalProperty implements Comparable<ThermalProperty>{
 
     @EmbeddedId
     private ThermalPropertyId thermalPropertyId;
@@ -35,4 +35,9 @@ public class ThermalProperty {
 
     @Column(name = "conductivity")
     private Double conductivity;
+
+    @Override
+    public int compareTo(ThermalProperty o) {
+        return this.thermalPropertyId.getTemperature() - o.thermalPropertyId.getTemperature();
+    }
 }
