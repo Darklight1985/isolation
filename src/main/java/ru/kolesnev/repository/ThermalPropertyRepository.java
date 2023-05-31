@@ -7,8 +7,6 @@ import ru.kolesnev.domain.ThermalProperty;
 import java.util.List;
 import java.util.UUID;
 
-
-
 public interface ThermalPropertyRepository extends JpaRepository<ThermalProperty, UUID> {
 
     @Query(value = """
