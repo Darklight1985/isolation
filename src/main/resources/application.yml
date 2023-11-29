@@ -1,9 +1,16 @@
 quarkus:
   datasource:
     jdbc:
-      url: jdbc:postgresql://localhost:5432/isolation
+      url: jdbc:postgresql://localhost:5433/isolation
     db-kind: postgresql
     username: postgres
     password: password
   flyway:
     migrate-at-start: true
+  smallrye-openapi:
+    enable: true
+  swagger-ui:
+    enable: true
+  http:
+    port: 8080
+    host: 0.0.0.0

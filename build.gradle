@@ -21,6 +21,8 @@ dependencies {
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-hibernate-orm'
+    implementation("io.quarkus:quarkus-smallrye-openapi")
+    implementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation 'io.quarkus:quarkus-junit5'

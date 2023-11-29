@@ -15,7 +15,7 @@ import ru.kolesnev.repository.ThermalPropertyRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,25 +32,31 @@ public class IsolationService {
                 .collect(Collectors.groupingBy(s -> s.getThermalPropertyId().getIsolation().getMark()));
 
         var number = list.stream().map(s -> s.getThermalPropertyId()
-                .getTemperature()).sorted().collect(Collectors.toCollection(TreeSet::new));
+                .getTemperature()).sorted().distinct().collect(Collectors.toList());
+        var iter = number.listIterator();
+
         var marks = map.keySet().stream().toList();
 
         List<List<Double>> conductivities = new ArrayList<>();
+        List<List<Integer>> densities = new ArrayList<>();
         for (var sets: map.entrySet()) {
-            var propertyDtoList = sets.getValue().stream()
-                    .map(t -> new PropertyDto(t.getThermalPropertyId().getTemperature(), t.getConductivity()))
-                    .collect(Collectors.toMap(t -> t.temperature(), t -> t));
+            Map<Short, PropertyDto> shortPropertyDtoMap = sets.getValue().stream()
+                    .map(t -> new PropertyDto(t.getThermalPropertyId().getTemperature(), t.getConductivity(), t.getDensity()))
+                    .collect(Collectors.toMap(PropertyDto::temperature, t -> t));
 
             for (short sh: number) {
-                if (!propertyDtoList.containsKey(sh)) {
-                    propertyDtoList.put(sh, new PropertyDto(sh, null));
+                if (!shortPropertyDtoMap.containsKey(sh)) {
+                    shortPropertyDtoMap.put(sh, new PropertyDto(sh, null, null));
                 }
             }
 
-            var ourList =  propertyDtoList.entrySet().stream().map(s -> s.getValue()).sorted()
-                    .map(s -> s.conductivity()).toList();
+            var conductivityList =  shortPropertyDtoMap.values().stream().sorted()
+                    .map(PropertyDto::conductivity).toList();
+            var densityList = shortPropertyDtoMap.values().stream().sorted()
+                    .map(PropertyDto::density).toList();
 
-            conductivities.add(ourList);
+            conductivities.add(conductivityList);
+            densities.add(densityList);
         }
 
         var temperatures = number.stream().toList();
@@ -58,11 +64,13 @@ public class IsolationService {
                 .marks(marks)
                 .temperatures(temperatures)
                 .conductivities(conductivities)
+                .densities(densities)
                 .build();
     }
 
     public void createProperty(ThermalPropertyDto dto) {
-        Isolation isolation = isolationRepository.findById(dto.getIsolation()).orElseThrow();
+        Isolation isolation = isolationRepository.findById(dto.getIsolation())
+                .orElseThrow(() -> new CustomException("Марка изоляции не найдена"));
         ThermalProperty thermalProperty = ThermalProperty.builder()
                 .conductivity(dto.getConductivity())
                 .density(dto.getDensity())
@@ -85,7 +93,8 @@ public class IsolationService {
     public List<PropertyDto> getProperty(UUID id) {
         var list = thermalPropertyRepository.findAllThermalPropertyByIsolationID(id);
         return list.stream().sorted()
-                .map(t -> new PropertyDto(t.getThermalPropertyId().getTemperature(), t.getConductivity())).toList();
+                .map(t -> new PropertyDto(t.getThermalPropertyId().getTemperature(), t.getConductivity(),
+                        t.getDensity())).toList();
     }
 
     public List<Isolation> getIsolations() {

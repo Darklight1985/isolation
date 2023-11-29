@@ -11,6 +11,9 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.kolesnev.domain.Isolation;
 import ru.kolesnev.domain.IsolationCreateDto;
 import ru.kolesnev.domain.PropertyDto;
@@ -24,44 +27,51 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Path("/isolation")
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "Контроллер для работы с марками изоляции и её свойствами")
 public class IsolationController {
     private final IsolationService isolationService;
 
 
     @GET
     @Path("/{id}")
+    @Operation(description = "Получение тепловых свойств изоляции по её идентификатору")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PropertyDto> getProperty(@PathParam("id") UUID id) {
+    public List<PropertyDto> getProperty(@PathParam("id") @Parameter(description = "Идентификатор изоляции") UUID id) {
         return isolationService.getProperty(id);
     }
 
     @GET
     @Path("/property")
+    @Operation(description = "Получение тепловых свойств изоляции по списку идентифкаторов")
     @Produces(MediaType.APPLICATION_JSON)
-    public PropertyViewDto getPropertys(@QueryParam("ids") List<UUID> ids) {
+    public PropertyViewDto getPropertys(@QueryParam("ids") @Parameter(description = "Список идентификаторов") List<UUID> ids) {
        return isolationService.getPropertys(ids);
     }
 
-
     @GET
+    @Operation(description = "Получение списка всех марок теплоизоляции")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Isolation> getIsolations() {
         return isolationService.getIsolations();
     }
 
     @POST
+    @Operation(description = "Задание новой марки теплоизоляционного материала")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response createIsolation(@Valid IsolationCreateDto dto) {
+    public Response createIsolation(@Valid @Parameter(description = "Параметры для задания материала изоляции",
+            name = "IsolationCreateDto") IsolationCreateDto dto) {
         isolationService.createIsolation(dto);
         return Response.status(Response.Status.CREATED).build();
     }
 
     @POST
+    @Operation(description = "Задание тепловых свойств для выбранного материала теплоизоляции")
     @Path("/property")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response createProperty(ThermalPropertyDto dto) {
+    public Response createProperty(@Valid @Parameter(description = "Тепловые свойства материала изоляции",
+            name = "ThermalPropertyDto") ThermalPropertyDto dto) {
         isolationService.createProperty(dto);
         return Response.status(Response.Status.CREATED).build();
     }
