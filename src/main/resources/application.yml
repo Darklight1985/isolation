@@ -13,9 +13,9 @@ quarkus:
     enable: true
   http:
     port: 8080
-    host: 0.0.0.0
-    cors:
-      ~: true
-      origins: http://localhost:3000,http://localhost:9090
-      headers: accept, authorization, content-type, x-requested-with
-      methods: GET, OPTIONS, POST
+#    host: 0.0.0.0
+#    cors:
+#      ~: true
+#      origins: http://localhost:3000,http://localhost:9090
+#      headers: accept, authorization, content-type, x-requested-with
+#      methods: GET, OPTIONS, POST
