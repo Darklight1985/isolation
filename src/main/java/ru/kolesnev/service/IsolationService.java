@@ -1,9 +1,11 @@
 package ru.kolesnev.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import ru.kolesnev.domain.Isolation;
 import ru.kolesnev.domain.IsolationCreateDto;
+import ru.kolesnev.domain.IsolationUpdateDto;
 import ru.kolesnev.domain.PropertyDto;
 import ru.kolesnev.domain.PropertyViewDto;
 import ru.kolesnev.domain.ThermalProperty;
@@ -79,6 +81,19 @@ public class IsolationService {
         thermalPropertyRepository.save(thermalProperty);
     }
 
+    public void deleteProperty(ThermalPropertyDto dto) {
+        Isolation isolation = isolationRepository.findById(dto.getIsolation())
+                .orElseThrow(() -> new CustomException("Марка изоляции не найдена"));
+        ThermalPropertyId id = new ThermalPropertyId(isolation, dto.getTemperature());
+        thermalPropertyRepository.deleteByThermalPropertyId(id);
+    }
+
+    @Transactional
+    public void deleteIsolation(UUID isolationId) {
+        thermalPropertyRepository.deleteAllByIsolation(isolationId);
+        isolationRepository.deleteById(isolationId);
+    }
+
     public void createIsolation(IsolationCreateDto dto) {
         if (isolationRepository.existsByMark(dto.getMark())) {
             throw new CustomException("Данная марка уже присутствует в базе");
@@ -88,6 +103,18 @@ public class IsolationService {
 //                .thermalProperties(new ArrayList<>())
                 .build();
         isolationRepository.save(isolation);
+    }
+
+    public void updateIsolation(IsolationUpdateDto dto) {
+
+
+        UUID isolationId = dto.getIsolation();
+
+        var iso =
+                isolationRepository.findById(isolationId)
+                        .orElseThrow(() -> new CustomException("Хрень, нету такой изоляции"));
+        iso.setMark(dto.getMark());
+        isolationRepository.save(iso);
     }
 
     public List<PropertyDto> getProperty(UUID id) {

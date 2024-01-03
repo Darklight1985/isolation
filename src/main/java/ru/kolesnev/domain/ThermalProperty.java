@@ -25,7 +25,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "thermal_property")
 @Entity
-public class ThermalProperty implements Comparable<ThermalProperty>{
+public class ThermalProperty implements Comparable<ThermalProperty> {
 
     @EmbeddedId
     private ThermalPropertyId thermalPropertyId;

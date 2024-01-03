@@ -27,7 +27,4 @@ public class CalculateThicknessDto {
 
     @Schema(description = "Условия со стороны наружной поверхности")
     private ConditionDto outerCondition;
-
-    @Schema(description = "Условия со стороны внутренней поверхности")
-    private ConditionDto innerCondition;
 }

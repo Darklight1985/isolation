@@ -2,6 +2,7 @@ package ru.kolesnev.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -70,9 +71,28 @@ public class IsolationController {
     @Path("/property")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response createProperty(@Valid @Parameter(description = "Тепловые свойства материала изоляции",
-            name = "ThermalPropertyDto") ThermalPropertyDto dto) {
+    public Response createProperty(@Parameter(description = "Параметры для задания тепловых свойств материала",
+            name = "ThermalPropertyDto") @Valid ThermalPropertyDto dto) {
         isolationService.createProperty(dto);
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @DELETE
+    @Operation(description = "Удаление марки тепловой изоляции")
+    @Path("/property/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteIsolation(@PathParam("id") @Parameter(description = "Идентификатор изоляции") UUID id) {
+        isolationService.deleteIsolation(id);
+        return Response.status(Response.Status.OK).build();
+    }
+
+    @DELETE
+    @Operation(description = "Удаление тепловых свойств для выбранного материала теплоизоляции")
+    @Path("/property")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteProperty(@Parameter(description = "Параметры для удаления тепловых свойств материала",
+            name = "ThermalPropertyDto") @Valid ThermalPropertyDto dto) {
+        isolationService.deleteProperty(dto);
+        return Response.status(Response.Status.OK).build();
     }
 }
