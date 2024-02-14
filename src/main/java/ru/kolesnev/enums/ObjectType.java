@@ -1,5 +1,8 @@
 package ru.kolesnev.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum ObjectType {
     HORIZONTAL_PIPE("Горизонтальный трубопровод"),
     VERTICAL_PIPE("Вертикальный трубопровод"),

@@ -23,7 +23,7 @@ public class HeatFluxController {
     private final HeatFluxService heatFluxService;
 
     @POST
-    @Operation(description = "Задание новой марки теплоизоляционного материала")
+    @Operation(description = "Задание нормированного теплового потока")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response createIsolation(@QueryParam(value = "indoors") Boolean indoors, @QueryParam(value = "long_work") Boolean longWork,
