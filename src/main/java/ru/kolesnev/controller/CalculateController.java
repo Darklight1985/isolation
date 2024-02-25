@@ -9,13 +9,11 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.kolesnev.domain.CalculateThicknessDto;
-import ru.kolesnev.domain.IsolationCreateDto;
 import ru.kolesnev.domain.TypeViewDto;
 import ru.kolesnev.enums.ObjectType;
 import ru.kolesnev.enums.SurfaceType;
@@ -67,7 +65,7 @@ public class CalculateController {
     }
 
     @GET
-    @Operation(description = "Получение значение коэффициента тепловой отдачи поверхности")
+    @Operation(description = "Получение списка возможных типов объектов")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/objects")
     public List<TypeViewDto> getObjectTypes() {
