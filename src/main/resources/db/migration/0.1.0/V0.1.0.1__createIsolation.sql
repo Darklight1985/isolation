@@ -1,11 +1,11 @@
-create table isolation
+create table if not exists isolation
 (
     id   uuid not null
         primary key,
     mark varchar(55)
 );
 
-create table thermal_property
+create table if not exists thermal_property
 (
     temperature  smallint,
     density int,

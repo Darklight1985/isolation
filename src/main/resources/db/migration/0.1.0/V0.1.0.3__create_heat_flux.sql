@@ -1,4 +1,4 @@
-create table heat_flux
+create table if not exists heat_flux
 (
     temperature  smallint,
     nominal_diameter int,

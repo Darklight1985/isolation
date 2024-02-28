@@ -9,12 +9,14 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.UUID;
 
+@Schema(description = "ДТО для задания тепловых свойств материала")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ThermalPropertyDto {
 
     @NotBlank(message = "Необходимо задать изоляцию")
+    @Schema(description = "Идентификатор марки тепловой изоляции")
     private UUID isolation;
 
     @NotNull(message = "Необходимо задать температуру")
@@ -22,8 +24,10 @@ public class ThermalPropertyDto {
     private Short temperature;
 
     @NotNull(message = "Необходимо задать плотность")
+    @Schema(description = "Плотность")
     private Integer density;
 
     @NotNull(message = "Необходимо задать теплопроводность")
+    @Schema(description = "Теплопроводность")
     private Double conductivity;
 }

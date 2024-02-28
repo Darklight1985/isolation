@@ -1,7 +1,7 @@
 quarkus:
   datasource:
     jdbc:
-      url: jdbc:postgresql://localhost:5432/isolation
+      url: jdbc:postgresql://localhost:5433/isolation
     db-kind: postgresql
     username: postgres
     password: password
@@ -13,6 +13,13 @@ quarkus:
     enable: true
   http:
     port: 8080
+    auth:
+      basic: true
+  hibernate-orm:
+    log:
+      format-sql: true
+    database:
+      generation: update
 #    host: 0.0.0.0
 #    cors:
 #      ~: true
