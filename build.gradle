@@ -23,6 +23,7 @@ dependencies {
     implementation 'jakarta.mvc:jakarta.mvc-api:2.1.0'
     implementation 'io.quarkus:quarkus-hibernate-orm'
     implementation("io.quarkus:quarkus-smallrye-openapi")
+    implementation("io.quarkus:quarkus-security-jpa")
     implementation("io.quarkus:quarkus-smallrye-metrics")
     implementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok:1.18.24'
