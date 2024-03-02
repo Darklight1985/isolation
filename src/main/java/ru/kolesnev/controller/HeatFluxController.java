@@ -1,5 +1,6 @@
 package ru.kolesnev.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -23,6 +24,7 @@ public class HeatFluxController {
     private final HeatFluxService heatFluxService;
 
     @POST
+    @RolesAllowed("admin")
     @Operation(description = "Задание нормированного теплового потока")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
