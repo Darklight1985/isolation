@@ -39,7 +39,7 @@ public class CalculateController {
     @Transactional
     public String calculateThickness(@Valid @Parameter(description = "Параметры для расчета",
             name = "IsolationCreateDto") CalculateThicknessDto dto) {
-        return calculationService.getPropertys(dto);
+        return calculationService.calculateThick(dto);
     }
 
     @GET

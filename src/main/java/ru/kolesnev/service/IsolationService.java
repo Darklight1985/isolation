@@ -90,6 +90,8 @@ public class IsolationService {
 
     @Transactional
     public void deleteIsolation(UUID isolationId) {
+        isolationRepository.findById(isolationId)
+                .orElseThrow(() -> new CustomException("Хрень, нету такой изоляции"));
         thermalPropertyRepository.deleteAllByIsolation(isolationId);
         isolationRepository.deleteById(isolationId);
     }
@@ -106,13 +108,14 @@ public class IsolationService {
     }
 
     public void updateIsolation(IsolationUpdateDto dto) {
-
-
         UUID isolationId = dto.getIsolation();
 
         var iso =
                 isolationRepository.findById(isolationId)
                         .orElseThrow(() -> new CustomException("Хрень, нету такой изоляции"));
+        if(isolationRepository.existsByMark(dto.getMark(), isolationId).isPresent()) {
+            throw new CustomException("Изоляция под такой маркой уже есть");
+        }
         iso.setMark(dto.getMark());
         isolationRepository.save(iso);
     }

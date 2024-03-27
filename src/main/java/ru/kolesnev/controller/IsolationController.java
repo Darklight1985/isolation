@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -12,11 +13,14 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.kolesnev.domain.Isolation;
 import ru.kolesnev.domain.IsolationCreateDto;
+import ru.kolesnev.domain.IsolationUpdateDto;
 import ru.kolesnev.domain.PropertyDto;
 import ru.kolesnev.domain.PropertyViewDto;
 import ru.kolesnev.domain.ThermalPropertyDto;
@@ -45,6 +49,8 @@ public class IsolationController {
     @Path("/property")
     @Operation(description = "Получение тепловых свойств изоляции по списку идентифкаторов")
     @Produces(MediaType.APPLICATION_JSON)
+    @Timed(name = "maxPrimeFactorTimer", description = "A measure of how long it takes to calculate the Max Prime Factor.",
+            unit = MetricUnits.MILLISECONDS)
     public PropertyViewDto getPropertys(@QueryParam("ids") @Parameter(description = "Список идентификаторов") List<UUID> ids) {
        return isolationService.getPropertys(ids);
     }
@@ -75,6 +81,15 @@ public class IsolationController {
             name = "ThermalPropertyDto") @Valid ThermalPropertyDto dto) {
         isolationService.createProperty(dto);
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @PUT
+    @Operation(description = "Обновление марки тепловой изоляции")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateIsolation(@Valid @Parameter(description = "Параметры для обновления материала изоляции",
+                                            name = "IsolationUpdateDto") IsolationUpdateDto dto) {
+        isolationService.updateIsolation(dto);
+        return Response.status(Response.Status.ACCEPTED).build();
     }
 
     @DELETE

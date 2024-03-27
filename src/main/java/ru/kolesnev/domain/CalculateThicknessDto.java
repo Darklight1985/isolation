@@ -20,7 +20,7 @@ public class CalculateThicknessDto {
     private Short innerTemperature;
 
     @Schema(description = "Наружный диаметра трубопровода")
-    private Short diameter;
+    private Integer diameter;
 
     @Schema(description = "Материал теплозиоляции")
     private UUID isolation;
