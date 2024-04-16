@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ThermalPropertyDto {
 
-    @NotBlank(message = "Необходимо задать изоляцию")
+    @NotNull(message = "Необходимо задать изоляцию")
     @Schema(description = "Идентификатор марки тепловой изоляции")
     private UUID isolation;
 
