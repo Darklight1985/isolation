@@ -23,6 +23,7 @@ import ru.kolesnev.domain.IsolationCreateDto;
 import ru.kolesnev.domain.IsolationUpdateDto;
 import ru.kolesnev.domain.PropertyDto;
 import ru.kolesnev.domain.PropertyViewDto;
+import ru.kolesnev.domain.ThermalPropertyDeleteDto;
 import ru.kolesnev.domain.ThermalPropertyDto;
 import ru.kolesnev.service.IsolationService;
 
@@ -106,7 +107,7 @@ public class IsolationController {
     @Path("/property")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProperty(@Parameter(description = "Параметры для удаления тепловых свойств материала",
-            name = "ThermalPropertyDto") @Valid ThermalPropertyDto dto) {
+            name = "ThermalPropertyDto") @Valid ThermalPropertyDeleteDto dto) {
         isolationService.deleteProperty(dto);
         return Response.status(Response.Status.OK).build();
     }

@@ -1,44 +1,31 @@
 package ru.kolesnev.repository;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
 import ru.kolesnev.domain.HeatFlux;
-import ru.kolesnev.domain.ThermalProperty;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface HeatFluxRepository extends JpaRepository<HeatFlux, UUID> {
+@ApplicationScoped
+public class HeatFluxRepository implements PanacheRepository<HeatFlux> {
 
-    @Query(value = """
-            SELECT hf from HeatFlux hf
-            where hf.heatFluxId.nominalDiameter = :nominalDiameter
-            and hf.heatFluxId.indoors = :indoors
-            and hf.heatFluxId.longWork = :longWork
-            and hf.heatFluxId.temperature >= :minTemperature
-            and hf.heatFluxId.temperature <= :maxTemperature
-            """)
-    List<HeatFlux> findHeatFluxByCondition(Short minTemperature, Short maxTemperature, Integer nominalDiameter,
-                                                       boolean longWork, boolean indoors);
+    private final EntityManager entityManager;
 
-    @Query(value = """
-            SELECT hf from HeatFlux hf
-            where hf.heatFluxId.nominalDiameter = :nominalDiameter
-            and hf.heatFluxId.indoors = :indoors
-            and hf.heatFluxId.longWork = :longWork
-            and hf.heatFluxId.temperature >= :temp
-            order by hf.heatFluxId.temperature
-            """)
-    List<HeatFlux> selectPropertyForMax(Short temp, Integer nominalDiameter, boolean longWork, boolean indoors, Pageable pageable);
+    public HeatFluxRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
-    @Query(value = """
-            SELECT hf from HeatFlux hf
-            where hf.heatFluxId.nominalDiameter = :nominalDiameter
-            and hf.heatFluxId.indoors = :indoors
-            and hf.heatFluxId.longWork = :longWork
-            and hf.heatFluxId.temperature <= :temp
-            order by hf.heatFluxId.temperature desc 
-            """)
-    List<HeatFlux> selectPropertyFoMin(Short temp, Integer nominalDiameter, boolean longWork, boolean indoors, Pageable pageable);
+    public Double getHeatFlux(Boolean indoors, Boolean longWork, Integer diameter, Integer temperature) {
+        return (Double) entityManager.createNativeQuery("select get_heat_flux(:indoors, :longWork, :diameter, :temperature)", Double.class)
+                .setParameter("indoors", indoors)
+                .setParameter("longWork", longWork)
+                .setParameter("diameter", diameter)
+                .setParameter("temperature", temperature)
+                .getSingleResult();
+    }
+
+    public void saveAll(List<HeatFlux> list) {
+        persist(list);
+    }
 }

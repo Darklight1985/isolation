@@ -9,6 +9,7 @@ import ru.kolesnev.domain.IsolationUpdateDto;
 import ru.kolesnev.domain.PropertyDto;
 import ru.kolesnev.domain.PropertyViewDto;
 import ru.kolesnev.domain.ThermalProperty;
+import ru.kolesnev.domain.ThermalPropertyDeleteDto;
 import ru.kolesnev.domain.ThermalPropertyDto;
 import ru.kolesnev.domain.ThermalPropertyId;
 import ru.kolesnev.exception.CustomException;
@@ -81,7 +82,7 @@ public class IsolationService {
         thermalPropertyRepository.save(thermalProperty);
     }
 
-    public void deleteProperty(ThermalPropertyDto dto) {
+    public void deleteProperty(ThermalPropertyDeleteDto dto) {
         Isolation isolation = isolationRepository.findById(dto.getIsolation())
                 .orElseThrow(() -> new CustomException("Марка изоляции не найдена"));
         ThermalPropertyId id = new ThermalPropertyId(isolation, dto.getTemperature());

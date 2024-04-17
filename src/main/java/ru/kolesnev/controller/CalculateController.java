@@ -42,6 +42,16 @@ public class CalculateController {
         return calculationService.calculateThick(dto);
     }
 
+    @POST
+    @Operation(description = "Расчет толщины теплоизоляции для плоской стенки")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/tube")
+    @Transactional
+    public String calculateThickness2(@Valid @Parameter(description = "Параметры для расчета",
+            name = "IsolationCreateDto") CalculateThicknessDto dto) {
+        return calculationService.calculateDiameter(dto);
+    }
+
     @GET
     @Operation(description = "Получение значение коэффициента тепловой отдачи поверхности")
     @Produces(MediaType.APPLICATION_JSON)
