@@ -1,14 +1,8 @@
 package ru.kolesnev.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import ru.kolesnev.domain.CalculateThicknessDto;
-import ru.kolesnev.domain.HeatFlux;
-import ru.kolesnev.domain.ResultDto;
-import ru.kolesnev.domain.ThermalProperty;
-import ru.kolesnev.domain.ThermalResistanceId;
 import ru.kolesnev.enums.NominalDiameter;
 import ru.kolesnev.enums.SurfaceType;
 import ru.kolesnev.exception.CustomException;
@@ -17,8 +11,6 @@ import ru.kolesnev.repository.ThermalPropertyRepository;
 import ru.kolesnev.repository.ThermalResistanceRepository;
 import ru.kolesnev.utils.ThermalCoefUtils;
 ;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -40,24 +32,8 @@ public class CalculationService {
 
         Short innerTemp = dto.getInnerTemperature();
 
-        PageRequest pageRequest = PageRequest.of(0, 1);
-
-        List<ThermalProperty> optTempMin = thermalPropertyRepository.selectPropertyForMin(innerTemp, isolationId, pageRequest);
-        List<ThermalProperty> optTempMax = thermalPropertyRepository.selectPropertyForMax(innerTemp, isolationId, pageRequest);
         String thickness;
-        if (optTempMax.isEmpty() || optTempMin.isEmpty()) {
-            throw new CustomException();
-        }
-        ThermalProperty tempMin = optTempMin.get(0);
-        ThermalProperty tempMax = optTempMax.get(0);
-        Double conductivity;
-        if (tempMin == tempMax) {
-            conductivity = tempMin.getConductivity();
-        } else {
-          conductivity = ((tempMax.getConductivity() - tempMin.getConductivity()) / (tempMax.getThermalPropertyId().getTemperature()
-                    - tempMin.getThermalPropertyId().getTemperature())) * (innerTemp
-                    - tempMin.getThermalPropertyId().getTemperature()) + tempMin.getConductivity();
-        }
+          Double conductivity = thermalPropertyRepository.getConductivity(isolationId, Integer.valueOf(innerTemp));
 
         Integer heatTransCoefOut = thermalCoefUtils.getHeatTransferCoef(dto.getOuterCondition().getObjectType(),
                 dto.getOuterCondition().getSurfaceType());
@@ -76,11 +52,18 @@ public class CalculationService {
     }
 
     public String calculateDiameter(CalculateThicknessDto dto) {
+        Integer diameter = dto.getDiameter();
+        Short temperature = dto.getInnerTemperature();
+         var outerCondition = dto.getOuterCondition();
+         SurfaceType surfaceType = outerCondition.getSurfaceType();
+         if (SurfaceType.OPEN_MIDDLE_WIND.equals(surfaceType) || SurfaceType.OPEN_HIGH_WIND.equals(surfaceType)) {
+             surfaceType = SurfaceType.OPEN_LOW_WIND;
+         }
 
-        ThermalResistanceId thermalResistanceId = new ThermalResistanceId((short) 100, 100, SurfaceType.INNER_LOW_RADIATION);
-
-         var th = thermalResistanceRepository.findByThermalId(thermalResistanceId);
-        System.out.println(th.get());
+         var th = thermalResistanceRepository.getThermalResistance(temperature, diameter, surfaceType.name());
+         Double hf = heatFluxRepository.getHeatFlux(dto.getOuterCondition().isIndoors(), dto.getOuterCondition().isLongWork(),
+                -1, Integer.valueOf(temperature));
+         Double lnB = 2 * 3.14;
 
         return null;
     }
