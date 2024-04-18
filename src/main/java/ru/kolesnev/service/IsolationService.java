@@ -91,9 +91,9 @@ public class IsolationService {
 
     @Transactional
     public void deleteIsolation(UUID isolationId) {
-        isolationRepository.findById(isolationId)
+        Isolation isolation = isolationRepository.findById(isolationId)
                 .orElseThrow(() -> new CustomException("Хрень, нету такой изоляции"));
-        thermalPropertyRepository.deleteAllByIsolation(isolationId);
+        thermalPropertyRepository.deleteAllByIsolation(isolation);
         isolationRepository.deleteById(isolationId);
     }
 

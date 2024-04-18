@@ -3,7 +3,9 @@ package ru.kolesnev.repository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import ru.kolesnev.domain.Isolation;
 import ru.kolesnev.domain.ThermalProperty;
 import ru.kolesnev.domain.ThermalPropertyId;
 
@@ -30,11 +32,13 @@ public interface ThermalPropertyRepository extends JpaRepository<ThermalProperty
 
     void deleteByThermalPropertyId(ThermalPropertyId id);
 
+    @Modifying
     @Query(value = """
-               DELETE FROM ThermalProperty tp
-               where tp.thermalPropertyId.isolation.id = :id
+               delete from ThermalProperty tp
+               where tp.thermalPropertyId.isolation = :isolation
             """)
-    int deleteAllByIsolation(UUID id);
+    void deleteAllByIsolation(Isolation isolation);
+
 
     @Query(value = """
             select tp 
