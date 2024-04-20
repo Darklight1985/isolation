@@ -11,8 +11,9 @@ public class StartUp {
     @Transactional
     public void loadUsers(@Observes StartupEvent evt) {
         // reset and load all test users
-        User.deleteAll();
-        User.add("admin", "admin", "admin");
-        User.add("user", "user", "user");
+       // User.deleteAll();
+        if (!User.checkAdmin()) {
+            User.add("admin", "admin", "admin");
+        }
     }
 }

@@ -37,7 +37,7 @@ public class CalculateController {
 
     @POST
     @Operation(description = "Расчет толщины теплоизоляции по нормированной плотности теплопотока")
-    @RolesAllowed("admin")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public String calculateThickness(@Valid @Parameter(description = "Параметры для расчета",

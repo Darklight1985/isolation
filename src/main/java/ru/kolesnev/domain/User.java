@@ -33,4 +33,12 @@ public class User extends PanacheEntity {
         user.role = role;
         user.persist();
     }
+
+    public static boolean checkAdmin() {
+        User user = find("role", "admin").firstResult();
+        if (user != null) {
+            return true;
+        }
+        return false;
+    }
 }
