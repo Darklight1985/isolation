@@ -34,22 +34,12 @@ public class CalculateController {
     private final ThermalCoefUtils thermalCoefUtils;
 
     @POST
-    @Operation(description = "Расчет толщины теплоизоляции для плоской стенки")
+    @Operation(description = "Расчет толщины теплоизоляции по нормированной плотности теплопотока")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public String calculateThickness(@Valid @Parameter(description = "Параметры для расчета",
             name = "IsolationCreateDto") CalculateThicknessDto dto) {
         return calculationService.calculateThick(dto);
-    }
-
-    @POST
-    @Operation(description = "Расчет толщины теплоизоляции для плоской стенки")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/tube")
-    @Transactional
-    public String calculateThickness2(@Valid @Parameter(description = "Параметры для расчета",
-            name = "IsolationCreateDto") CalculateThicknessDto dto) {
-        return calculationService.calculateDiameter(dto);
     }
 
     @GET
