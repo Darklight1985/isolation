@@ -1,4 +1,4 @@
-package ru.kolesnev.domain;
+package ru.kolesnev.dto;
 
 public record ResultDto(Integer value) {
 }

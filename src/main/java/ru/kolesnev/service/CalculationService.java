@@ -2,8 +2,8 @@ package ru.kolesnev.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
-import ru.kolesnev.domain.CalculateThicknessDto;
-import ru.kolesnev.domain.ConditionDto;
+import ru.kolesnev.dto.CalculateThicknessDto;
+import ru.kolesnev.dto.ConditionDto;
 import ru.kolesnev.enums.NominalDiameter;
 import ru.kolesnev.enums.ObjectType;
 import ru.kolesnev.enums.SurfaceType;
@@ -48,10 +48,6 @@ public class CalculationService {
     private String calculateDiameter(CalculateThicknessDto dto) {
         int diameter = dto.getDiameter();
         short temperature = dto.getInnerTemperature();
-
-        if (!NominalDiameter.checkDiameter(diameter)) {
-            throw new CustomException("Диаметре [%s] не соответствует ряду номинальных диаметров".formatted(diameter));
-        }
 
         ConditionDto outerCondition = dto.getOuterCondition();
         SurfaceType surfaceType = outerCondition.getSurfaceType();

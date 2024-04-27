@@ -1,4 +1,4 @@
-package ru.kolesnev.domain;
+package ru.kolesnev.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

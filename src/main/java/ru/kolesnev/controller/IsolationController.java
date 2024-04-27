@@ -19,12 +19,12 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.kolesnev.domain.Isolation;
-import ru.kolesnev.domain.IsolationCreateDto;
-import ru.kolesnev.domain.IsolationUpdateDto;
-import ru.kolesnev.domain.PropertyDto;
-import ru.kolesnev.domain.PropertyViewDto;
-import ru.kolesnev.domain.ThermalPropertyDeleteDto;
-import ru.kolesnev.domain.ThermalPropertyDto;
+import ru.kolesnev.dto.IsolationCreateDto;
+import ru.kolesnev.dto.IsolationUpdateDto;
+import ru.kolesnev.dto.PropertyDto;
+import ru.kolesnev.dto.PropertyViewDto;
+import ru.kolesnev.dto.ThermalPropertyDeleteDto;
+import ru.kolesnev.dto.ThermalPropertyDto;
 import ru.kolesnev.service.IsolationService;
 
 import java.util.List;
@@ -35,6 +35,7 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = "Контроллер для работы с марками изоляции и её свойствами")
 public class IsolationController {
+
     private final IsolationService isolationService;
 
 

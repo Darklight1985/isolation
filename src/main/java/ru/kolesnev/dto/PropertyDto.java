@@ -1,6 +1,4 @@
-package ru.kolesnev.domain;
-
-import lombok.Getter;
+package ru.kolesnev.dto;
 
 public record PropertyDto (Short temperature, Double conductivity, Integer density) implements Comparable<PropertyDto>{
     @Override
