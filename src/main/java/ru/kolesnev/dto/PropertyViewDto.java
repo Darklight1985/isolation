@@ -1,4 +1,4 @@
-package ru.kolesnev.domain;
+package ru.kolesnev.dto;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package ru.kolesnev.domain;
+package ru.kolesnev.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

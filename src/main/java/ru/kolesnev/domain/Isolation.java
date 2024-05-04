@@ -32,7 +32,4 @@ public class Isolation {
 
     @Column(name = "mark")
     private String mark;
-
-//    @OneToMany(mappedBy = "thermalPropertyId.isolation", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-//    private List<ThermalProperty> thermalProperties = new ArrayList<>();
 }

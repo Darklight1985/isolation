@@ -1,6 +1,7 @@
-package ru.kolesnev.domain;
+package ru.kolesnev.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import ru.kolesnev.enums.ObjectType;
 import ru.kolesnev.enums.SurfaceType;
@@ -9,8 +10,10 @@ import ru.kolesnev.enums.SurfaceType;
 public class ConditionDto {
 
     @JsonProperty("object_type")
+    @NotNull(message = "Необходимо задать тип объекта")
     private ObjectType objectType;
     @JsonProperty("surface_type")
+    @NotNull(message = "Необходимо задать тип поверхности")
     private SurfaceType surfaceType;
     private boolean indoors;
     @JsonProperty("long_work")

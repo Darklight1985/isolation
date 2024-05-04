@@ -2,18 +2,18 @@ package ru.kolesnev.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
-import ru.kolesnev.domain.CalculateThicknessDto;
-import ru.kolesnev.domain.ConditionDto;
-import ru.kolesnev.enums.NominalDiameter;
+import lombok.extern.slf4j.Slf4j;
+import ru.kolesnev.dto.CalculateThicknessDto;
+import ru.kolesnev.dto.ConditionDto;
 import ru.kolesnev.enums.ObjectType;
 import ru.kolesnev.enums.SurfaceType;
-import ru.kolesnev.exception.CustomException;
 import ru.kolesnev.repository.HeatFluxRepository;
 import ru.kolesnev.repository.ThermalPropertyRepository;
 import ru.kolesnev.repository.ThermalResistanceRepository;
 import ru.kolesnev.utils.ThermalCoefUtils;
 import java.util.UUID;
 
+@Slf4j
 @ApplicationScoped
 @RequiredArgsConstructor
 public class CalculationService {
@@ -49,10 +49,6 @@ public class CalculationService {
         int diameter = dto.getDiameter();
         short temperature = dto.getInnerTemperature();
 
-        if (!NominalDiameter.checkDiameter(diameter)) {
-            throw new CustomException("Диаметре [%s] не соответствует ряду номинальных диаметров".formatted(diameter));
-        }
-
         ConditionDto outerCondition = dto.getOuterCondition();
         SurfaceType surfaceType = outerCondition.getSurfaceType();
         if (SurfaceType.OPEN_MIDDLE_WIND.equals(surfaceType) || SurfaceType.OPEN_HIGH_WIND.equals(surfaceType)) {
@@ -60,6 +56,7 @@ public class CalculationService {
         }
 
         double conductivity = thermalPropertyRepository.getConductivity(dto.getIsolation(), (int) temperature);
+
         double thermalResistance = thermalResistanceRepository.getThermalResistance(temperature, diameter, surfaceType.name());
         double heatFlux = heatFluxRepository.getHeatFlux(dto.getOuterCondition().isIndoors(), dto.getOuterCondition().isLongWork(),
                 -1, (int) temperature);

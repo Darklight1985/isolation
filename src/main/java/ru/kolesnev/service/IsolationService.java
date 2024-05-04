@@ -4,13 +4,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import ru.kolesnev.domain.Isolation;
-import ru.kolesnev.domain.IsolationCreateDto;
-import ru.kolesnev.domain.IsolationUpdateDto;
-import ru.kolesnev.domain.PropertyDto;
-import ru.kolesnev.domain.PropertyViewDto;
+import ru.kolesnev.dto.IsolationCreateDto;
+import ru.kolesnev.dto.IsolationUpdateDto;
+import ru.kolesnev.dto.PropertyDto;
+import ru.kolesnev.dto.PropertyViewDto;
 import ru.kolesnev.domain.ThermalProperty;
-import ru.kolesnev.domain.ThermalPropertyDeleteDto;
-import ru.kolesnev.domain.ThermalPropertyDto;
+import ru.kolesnev.dto.ThermalPropertyDeleteDto;
+import ru.kolesnev.dto.ThermalPropertyDto;
 import ru.kolesnev.domain.ThermalPropertyId;
 import ru.kolesnev.exception.CustomException;
 import ru.kolesnev.repository.IsolationRepository;
@@ -103,7 +103,6 @@ public class IsolationService {
         }
         Isolation isolation = Isolation.builder()
                 .mark(dto.getMark())
-//                .thermalProperties(new ArrayList<>())
                 .build();
         isolationRepository.save(isolation);
     }
