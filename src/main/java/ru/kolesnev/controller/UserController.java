@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @POST
-    @Path("/property")
+    @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
     public String login(@Valid @Parameter(description = "Вход для администратора")UserLoginDto dto) {
         return userService.login(dto);
