@@ -13,6 +13,7 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import ru.kolesnev.domain.UserCreateDto;
+import ru.kolesnev.dto.UserLoginDto;
 import ru.kolesnev.service.UserService;
 
 @RequiredArgsConstructor
@@ -31,5 +32,12 @@ public class UserController {
             name = "UserCreateDto") UserCreateDto dto) {
         userService.addUser(dto);
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @POST
+    @Path("/property")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String login(@Valid @Parameter(description = "Вход для администратора")UserLoginDto dto) {
+        return userService.login(dto);
     }
 }

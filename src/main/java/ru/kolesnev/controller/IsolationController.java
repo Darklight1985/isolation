@@ -15,8 +15,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.microprofile.metrics.MetricUnits;
-import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -55,8 +53,6 @@ public class IsolationController {
     @PermitAll
     @Operation(description = "Получение тепловых свойств изоляции по списку идентифкаторов")
     @Produces(MediaType.APPLICATION_JSON)
-    @Timed(name = "maxPrimeFactorTimer", description = "A measure of how long it takes to calculate the Max Prime Factor.",
-            unit = MetricUnits.MILLISECONDS)
     public PropertyViewDto getPropertys(@QueryParam("ids") @Parameter(description = "Список идентификаторов") List<UUID> ids) {
        return isolationService.getPropertys(ids);
     }
