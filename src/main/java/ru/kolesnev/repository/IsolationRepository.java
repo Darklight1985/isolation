@@ -3,9 +3,6 @@ package ru.kolesnev.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.kolesnev.domain.Isolation;
-import ru.kolesnev.domain.ThermalProperty;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
