@@ -1,5 +1,7 @@
 package ru.kolesnev.controller;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
@@ -39,6 +41,7 @@ public class IsolationController {
 
     @GET
     @Path("/{id}")
+    @PermitAll
     @Operation(description = "Получение тепловых свойств изоляции по её идентификатору")
     @Produces(MediaType.APPLICATION_JSON)
     public List<PropertyDto> getProperty(@PathParam("id") @Parameter(description = "Идентификатор изоляции") UUID id) {
@@ -47,6 +50,7 @@ public class IsolationController {
 
     @GET
     @Path("/property")
+    @PermitAll
     @Operation(description = "Получение тепловых свойств изоляции по списку идентифкаторов")
     @Produces(MediaType.APPLICATION_JSON)
     public PropertyViewDto getPropertys(@QueryParam("ids") @Parameter(description = "Список идентификаторов") List<UUID> ids) {
@@ -55,12 +59,14 @@ public class IsolationController {
 
     @GET
     @Operation(description = "Получение списка всех марок теплоизоляции")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public List<Isolation> getIsolations() {
         return isolationService.getIsolations();
     }
 
     @POST
+    @RolesAllowed("admin")
     @Operation(description = "Задание новой марки теплоизоляционного материала")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
@@ -71,6 +77,7 @@ public class IsolationController {
     }
 
     @POST
+    @RolesAllowed("admin")
     @Operation(description = "Задание тепловых свойств для выбранного материала теплоизоляции")
     @Path("/property")
     @Produces(MediaType.APPLICATION_JSON)
@@ -91,6 +98,7 @@ public class IsolationController {
     }
 
     @DELETE
+    @RolesAllowed("admin")
     @Operation(description = "Удаление марки тепловой изоляции")
     @Path("/property/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -100,6 +108,7 @@ public class IsolationController {
     }
 
     @DELETE
+    @RolesAllowed("admin")
     @Operation(description = "Удаление тепловых свойств для выбранного материала теплоизоляции")
     @Path("/property")
     @Produces(MediaType.APPLICATION_JSON)

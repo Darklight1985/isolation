@@ -9,21 +9,23 @@ repositories {
 }
 
 dependencies {
+    implementation("io.quarkus:quarkus-resteasy-jackson")
+    implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+    implementation 'commons-codec:commons-codec:1.15'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-flyway'
     implementation 'io.quarkus:quarkus-hibernate-validator'
-    implementation 'io.quarkus:quarkus-resteasy-reactive'
     implementation 'io.quarkus:quarkus-config-yaml'
     implementation 'io.quarkus:quarkus-hibernate-orm-panache'
     implementation("io.quarkus:quarkus-spring-data-jpa")
     implementation("io.quarkus:quarkus-hibernate-validator")
-    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'jakarta.mvc:jakarta.mvc-api:2.1.0'
     implementation 'io.quarkus:quarkus-hibernate-orm'
     implementation("io.quarkus:quarkus-smallrye-openapi")
-    implementation("io.quarkus:quarkus-smallrye-metrics")
+    implementation("io.quarkus:quarkus-security-jpa")
+   // implementation("io.quarkus:quarkus-smallrye-metrics")
     implementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'

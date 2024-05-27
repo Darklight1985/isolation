@@ -1,6 +1,8 @@
 package ru.kolesnev.controller;
 
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
@@ -35,6 +37,7 @@ public class CalculateController {
 
     @POST
     @Operation(description = "Расчет толщины теплоизоляции по нормированной плотности теплопотока")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public String calculateThickness(@Valid @Parameter(description = "Параметры для расчета",
@@ -43,6 +46,7 @@ public class CalculateController {
     }
 
     @GET
+    @PermitAll
     @Operation(description = "Получение значение коэффициента тепловой отдачи поверхности")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/property")
@@ -52,6 +56,7 @@ public class CalculateController {
     }
 
     @GET
+    @PermitAll
     @Operation(description = "Получение списка возможных типов поверхностей")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/surfaces")
@@ -65,6 +70,7 @@ public class CalculateController {
     }
 
     @GET
+    @PermitAll
     @Operation(description = "Получение списка возможных типов объектов")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/objects")
