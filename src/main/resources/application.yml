@@ -1,7 +1,7 @@
 quarkus:
   datasource:
     jdbc:
-      url: jdbc:postgresql://localhost:5433/isolation
+      url: jdbc:postgresql://localhost:5432/isolation
     db-kind: postgresql
     username: postgres
     password: password
@@ -11,15 +11,24 @@ quarkus:
     enable: true
   swagger-ui:
     enable: true
+    always-include: true
   http:
     port: 8080
     auth:
       basic: true
+    root-path: /app
   hibernate-orm:
     log:
       format-sql: true
     database:
       generation: update
+  micrometer:
+    export:
+      json:
+        enabled: true
+        path: metrics/json
+      prometheus:
+        path: metrics/prometheus
 #    host: 0.0.0.0
 #    cors:
 #      ~: true
