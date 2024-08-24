@@ -22,7 +22,6 @@ public class HeatFluxService {
     private final HeatFluxRepository heatFluxRepository;
 
     public void readData(File file, boolean indoors, boolean longWork) {
-
         List<HeatFluxId> fluxIds = new ArrayList<>();
         List<HeatFlux> fluxes = new ArrayList<>();
         try (Scanner scanner = new Scanner(file)) {
