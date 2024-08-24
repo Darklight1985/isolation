@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.kolesnev.domain.Isolation;
+import ru.kolesnev.domain.ThermalProperty;
 import ru.kolesnev.domain.ThermalPropertyId;
 import ru.kolesnev.dto.ThermalPropertyDto;
 import ru.kolesnev.repository.IsolationRepository;
@@ -34,9 +35,41 @@ public class IsolationServiceTest {
 
     private static final UUID ISOLATION_ID = UUID.randomUUID();
     private final Isolation isolation = new Isolation();
+    private final ThermalPropertyDto dto = new ThermalPropertyDto();
+    private final Short temperature = Short.valueOf(randomNumeric(1));
+    private final Double conductivity = Double.valueOf(randomNumeric(2));
+    private final Integer density = Integer.valueOf(randomNumeric(3));
+    private final ThermalProperty thermalProperty =
+            new ThermalProperty(
+                    new ThermalPropertyId(isolation, temperature),
+                    density,
+                    conductivity);
+
 
     @Nested
-    class DeleteIsolationClass {
+    class CreatePropertyTest {
+
+        @BeforeEach
+        void init() {
+            dto.setConductivity(conductivity);
+            dto.setIsolation(ISOLATION_ID);
+            dto.setTemperature(temperature);
+            dto.setDensity(density);
+            Mockito.when(isolationRepository.findById(ISOLATION_ID)).thenReturn(Optional.of(isolation));
+        }
+
+        @Test
+        @DisplayName("""
+                Если создание прошло успешно, эксперимент сохраняется в служебную базу.
+                """)
+        void test_1() {
+            isolationService.createProperty(dto);
+            Mockito.verify(thermalPropertyRepository).save(Mockito.eq(thermalProperty));
+        }
+    }
+
+    @Nested
+    class DeleteIsolationTest {
 
         @BeforeEach
         void init() {
@@ -55,10 +88,8 @@ public class IsolationServiceTest {
     }
 
     @Nested
-    class DeletePropertyClass {
+    class DeletePropertyTest {
 
-        private final ThermalPropertyDto dto = new ThermalPropertyDto();
-        private final Short temperature = Short.valueOf(randomNumeric(1));
         private final ThermalPropertyId thermalPropertyId = new ThermalPropertyId(isolation, temperature);
 
         @BeforeEach
