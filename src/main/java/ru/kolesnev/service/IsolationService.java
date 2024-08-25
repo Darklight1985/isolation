@@ -121,7 +121,7 @@ public class IsolationService {
     }
 
     public List<PropertyDto> getProperty(UUID id) {
-        var list = thermalPropertyRepository.findAllThermalPropertyByIsolationID(id);
+        var list = thermalPropertyRepository.findAllThermalPropertyByIsolationId(id);
         return list.stream().sorted()
                 .map(t -> new PropertyDto(t.getThermalPropertyId().getTemperature(), t.getConductivity(),
                         t.getDensity())).toList();
