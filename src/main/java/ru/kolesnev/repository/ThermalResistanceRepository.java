@@ -8,6 +8,7 @@ import ru.kolesnev.domain.ThermalResistance;
 import ru.kolesnev.domain.ThermalResistanceId;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ThermalResistanceRepository implements PanacheRepository<ThermalResistance> {
@@ -32,5 +33,9 @@ public class ThermalResistanceRepository implements PanacheRepository<ThermalRes
 
     public void saveAll(List<ThermalResistance> list) {
         persist(list);
+    }
+
+    public Optional<ThermalResistance> checkVoid() {
+        return findAll().range(0, 1).firstResultOptional();
     }
 }
