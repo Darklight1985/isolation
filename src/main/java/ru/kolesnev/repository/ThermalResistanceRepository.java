@@ -3,7 +3,9 @@ package ru.kolesnev.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import ru.kolesnev.domain.HeatFluxId;
 import ru.kolesnev.domain.ThermalResistance;
+import ru.kolesnev.domain.ThermalResistanceId;
 
 import java.util.List;
 
@@ -22,6 +24,10 @@ public class ThermalResistanceRepository implements PanacheRepository<ThermalRes
                 .setParameter("diameter", diameter)
                 .setParameter("temperature", temperature)
                 .getSingleResult();
+    }
+
+    public boolean isExists(ThermalResistanceId id) {
+        return count("resistanceId", id) > 0;
     }
 
     public void saveAll(List<ThermalResistance> list) {

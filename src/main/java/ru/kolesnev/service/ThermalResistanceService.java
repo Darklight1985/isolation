@@ -1,6 +1,7 @@
 package ru.kolesnev.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.kolesnev.domain.HeatFlux;
@@ -8,6 +9,7 @@ import ru.kolesnev.domain.HeatFluxId;
 import ru.kolesnev.domain.ThermalResistance;
 import ru.kolesnev.domain.ThermalResistanceId;
 import ru.kolesnev.enums.SurfaceType;
+import ru.kolesnev.exception.CustomException;
 import ru.kolesnev.repository.ThermalResistanceRepository;
 
 import java.io.File;
@@ -25,7 +27,7 @@ public class ThermalResistanceService {
 
     private final ThermalResistanceRepository thermalResistanceRepository;
 
-
+    @Transactional
     public void readData(File file) {
         List<ThermalResistance> fluxes = new ArrayList<>();
         try (Scanner scanner = new Scanner(file)) {
@@ -37,6 +39,9 @@ public class ThermalResistanceService {
                     SurfaceType surfaceType = SurfaceType.valueOf(datas.get(2));
                     Double resValue = Double.valueOf(datas.get(3));
                     ThermalResistanceId thermalResistanceId = new ThermalResistanceId(temperature, diameter, surfaceType);
+                    if (thermalResistanceRepository.isExists(thermalResistanceId)) {
+                        throw new CustomException("Thermal Resistance already exists");
+                    }
                     ThermalResistance thermalResistance = new ThermalResistance(thermalResistanceId, resValue);
                     fluxes.add(thermalResistance);
                 }

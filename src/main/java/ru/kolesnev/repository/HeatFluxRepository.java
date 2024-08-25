@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import ru.kolesnev.domain.HeatFlux;
+import ru.kolesnev.domain.HeatFluxId;
 
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class HeatFluxRepository implements PanacheRepository<HeatFlux> {
                 .setParameter("diameter", diameter)
                 .setParameter("temperature", temperature)
                 .getSingleResult();
+    }
+
+    public boolean isExists(HeatFluxId id) {
+        return count("heatFluxId", id) > 0;
     }
 
     public void saveAll(List<HeatFlux> list) {

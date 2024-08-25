@@ -1,22 +1,50 @@
 package ru.kolesnev.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
 import ru.kolesnev.domain.Isolation;
-import ru.kolesnev.domain.ThermalProperty;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface IsolationRepository extends JpaRepository<Isolation, UUID> {
+@ApplicationScoped
+public class IsolationRepository implements PanacheRepository<Isolation> {
 
-    boolean existsByMark(String mark);
+    private final EntityManager em;
 
-    @Query(value = """
-            select iso from Isolation iso
-            where iso.mark = :mark
-            and iso.id <> :isolationId
-            """)
-    Optional<Isolation> existsByMark(String mark, UUID isolationId);
+    public IsolationRepository(EntityManager em) {
+        this.em = em;
+    }
+
+    public boolean existsByMark(String mark) {
+        return count("mark", mark) > 0;
+    }
+
+    public Optional<Isolation> findById(UUID id) {
+        return find("id", id).singleResultOptional();
+    }
+
+    public void save(Isolation isolation) {
+        persist(isolation);
+    }
+
+    public void deleteById(UUID id) {
+        delete("id", id);
+    }
+
+    public List<Isolation> findListAll() {
+        return listAll().stream().toList();
+    }
+
+    public Optional<Isolation> existsByMark(String mark, UUID isolationId) {
+        return Optional.ofNullable((Isolation) em.createNativeQuery("""
+                         select iso from isolattion iso
+                        where where iso.mark = :mark
+                                                    and iso.id <> :isolationId""", Isolation.class)
+                .setParameter("isolationId", isolationId)
+                .setParameter("mark", mark)
+                .getSingleResult());
+    }
 }
