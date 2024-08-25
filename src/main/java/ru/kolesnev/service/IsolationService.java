@@ -128,6 +128,6 @@ public class IsolationService {
     }
 
     public List<Isolation> getIsolations() {
-        return isolationRepository.findAll();
+        return isolationRepository.findListAll();
     }
 }

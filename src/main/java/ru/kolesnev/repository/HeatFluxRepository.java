@@ -4,8 +4,11 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import ru.kolesnev.domain.HeatFlux;
+import ru.kolesnev.domain.HeatFluxId;
+import ru.kolesnev.domain.ThermalResistance;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class HeatFluxRepository implements PanacheRepository<HeatFlux> {
@@ -25,7 +28,15 @@ public class HeatFluxRepository implements PanacheRepository<HeatFlux> {
                 .getSingleResult();
     }
 
+    public boolean isExists(HeatFluxId id) {
+        return count("heatFluxId", id) > 0;
+    }
+
     public void saveAll(List<HeatFlux> list) {
         persist(list);
+    }
+
+    public Optional<HeatFlux> checkVoid() {
+        return findAll().range(0, 1).firstResultOptional();
     }
 }

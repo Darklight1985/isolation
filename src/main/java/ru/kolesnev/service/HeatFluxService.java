@@ -1,9 +1,11 @@
 package ru.kolesnev.service;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import ru.kolesnev.domain.HeatFlux;
 import ru.kolesnev.domain.HeatFluxId;
+import ru.kolesnev.exception.CustomException;
 import ru.kolesnev.repository.HeatFluxRepository;
 
 import java.io.File;
@@ -15,14 +17,14 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@Service
+@ApplicationScoped
 @Slf4j
 public class HeatFluxService {
 
     private final HeatFluxRepository heatFluxRepository;
 
+    @Transactional
     public void readData(File file, boolean indoors, boolean longWork) {
-
         List<HeatFluxId> fluxIds = new ArrayList<>();
         List<HeatFlux> fluxes = new ArrayList<>();
         try (Scanner scanner = new Scanner(file)) {
@@ -49,6 +51,9 @@ public class HeatFluxService {
                         heatFluxId.setTemperature(fluxIds.get(i).getTemperature());
                         heatFluxId.setLongWork(longWork);
                         heatFluxId.setIndoors(indoors);
+                        if (heatFluxRepository.isExists(heatFluxId)) {
+                            throw new CustomException("HeatFlux already exists");
+                        }
                         HeatFlux heatFlux = new HeatFlux();
                         heatFlux.setHeatFluxId(heatFluxId);
                         heatFlux.setHeatFluxValue(heatFluxValue);

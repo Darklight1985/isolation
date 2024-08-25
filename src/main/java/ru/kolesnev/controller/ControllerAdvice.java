@@ -13,7 +13,6 @@ import ru.kolesnev.exception.CustomException;
 @Slf4j
 public class ControllerAdvice implements ExceptionMapper<GenericJDBCException> {
 
-
     @Override
     public Response toResponse(GenericJDBCException exception) {
             return Response.status(Response.Status.BAD_REQUEST).
