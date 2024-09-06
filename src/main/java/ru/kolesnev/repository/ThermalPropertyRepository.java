@@ -9,6 +9,7 @@ import ru.kolesnev.domain.ThermalProperty;
 import ru.kolesnev.domain.ThermalPropertyId;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -21,7 +22,7 @@ public class ThermalPropertyRepository implements PanacheRepository<ThermalPrope
         this.entityManager = entityManager;
     }
 
-    public List<ThermalProperty> findAllThermalPropertyByIsolationID(UUID id) {
+    public List<ThermalProperty> findAllThermalPropertyByIsolationId(UUID id) {
         return list("thermalPropertyId.isolation.id", id);
     }
 
@@ -38,11 +39,11 @@ public class ThermalPropertyRepository implements PanacheRepository<ThermalPrope
         delete("thermalPropertyId.isolation", isolation);
     }
 
-    public Double getConductivity(UUID isolation, Integer temperature) {
-        return (Double) entityManager.createNativeQuery("select get_conductivity(:isolation, :temperature)", Double.class)
+    public Optional<Double> getConductivity(UUID isolation, Integer temperature) {
+        return Optional.ofNullable((Double) entityManager.createNativeQuery("select get_conductivity(:isolation, :temperature)", Double.class)
                 .setParameter("isolation", isolation)
                 .setParameter("temperature", temperature)
-                .getSingleResult();
+                .getSingleResult());
     }
 
     public void save(ThermalProperty thermalProperty) {

@@ -34,18 +34,17 @@ public class CalculationService {
 
     private String calculateFlatWall(CalculateThicknessDto dto) {
         UUID isolationId = dto.getIsolation();
+
         //Проверку по айдишнику нужно, что такая изоляция есть
-
         short innerTemp = dto.getInnerTemperature();
-
-        double conductivity = thermalPropertyRepository.getConductivity(isolationId, (int) innerTemp);
+        double conductivity = thermalPropertyRepository.getConductivity(isolationId, (int) innerTemp)
+                .orElseThrow(() -> new CustomException("Thermal property is missing"));
 
         int heatTransCoefOut = thermalCoefUtils.getHeatTransferCoef(dto.getOuterCondition().getObjectType(),
                 dto.getOuterCondition().getSurfaceType());
 
         double heatFlux = heatFluxRepository.getHeatFlux(dto.getOuterCondition().isIndoors(), dto.getOuterCondition().isLongWork(),
                 -1, Integer.valueOf(dto.getInnerTemperature()));
-
         double thick = ((dto.getInnerTemperature() - dto.getOuterTemperature()) / heatFlux - 1 / heatTransCoefOut) * conductivity;
 
         return String.format("%.2f", thick * 1000);
@@ -61,11 +60,12 @@ public class CalculationService {
             surfaceType = SurfaceType.OPEN_LOW_WIND;
         }
 
-        double conductivity = thermalPropertyRepository.getConductivity(dto.getIsolation(), (int) temperature);
+        double conductivity = thermalPropertyRepository.getConductivity(dto.getIsolation(), (int) temperature)
+                .orElseThrow(() -> new CustomException("Thermal property is missing"));
 
         double thermalResistance = thermalResistanceRepository.getThermalResistance(temperature, diameter, surfaceType.name());
         double heatFlux = heatFluxRepository.getHeatFlux(dto.getOuterCondition().isIndoors(), dto.getOuterCondition().isLongWork(),
-                -1, (int) temperature);
+                diameter, (int) temperature);
         double lnB = 2 * Math.PI * conductivity * (((temperature - dto.getOuterTemperature()) / heatFlux) - thermalResistance);
         double numberB = Math.exp(lnB);
 
