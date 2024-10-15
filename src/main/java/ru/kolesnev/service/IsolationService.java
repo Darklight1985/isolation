@@ -16,10 +16,7 @@ import ru.kolesnev.exception.CustomException;
 import ru.kolesnev.repository.IsolationRepository;
 import ru.kolesnev.repository.ThermalPropertyRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -36,7 +33,6 @@ public class IsolationService {
 
         var number = list.stream().map(s -> s.getThermalPropertyId()
                 .getTemperature()).sorted().distinct().collect(Collectors.toList());
-        var iter = number.listIterator();
 
         var marks = map.keySet().stream().toList();
 
