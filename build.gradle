@@ -17,6 +17,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-hibernate-validator'
     implementation 'io.quarkus:quarkus-config-yaml'
     implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+    implementation 'com.opencsv:opencsv:5.9'
     implementation("io.quarkus:quarkus-hibernate-validator")
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
     implementation 'io.quarkus:quarkus-arc'
