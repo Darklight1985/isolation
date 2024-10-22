@@ -2,7 +2,8 @@ package ru.kolesnev.csv;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,19 +12,27 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@ApplicationScoped
 @Slf4j
-public class CSVBean {
+@MappedSuperclass
+public abstract class CSVBean {
+
+    @Column(name = "file_name", updatable = false)
+    private String fileName;
+
+    @Column(name = "execution_date", updatable = false)
+    private LocalDateTime execDate;
+
+    public abstract void run();
 
     public List<ThermalResistanceCSVBean> simplePositionBeanExample() throws Exception {
-        URL is = getFileAsIOStream("csv/thermal_resistance.csv");
+        URL is = getFileAsIOStream(getFileName());
         Path uri = Paths.get(is.toURI());
 
-
-        List<ThermalResistanceCSVBean> lines = null;
+        List<ThermalResistanceCSVBean> lines;
         try (Reader reader = Files.newBufferedReader(uri)) {
             CsvToBean<ThermalResistanceCSVBean> cb = new CsvToBeanBuilder<ThermalResistanceCSVBean>(reader)
                     .withType(ThermalResistanceCSVBean.class)
@@ -34,6 +43,7 @@ public class CSVBean {
         }
         return lines;
     }
+
     private URL getFileAsIOStream(final String fileName)
     {
         URL ioStream = super.getClass()
