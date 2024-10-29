@@ -26,7 +26,6 @@ import ru.kolesnev.dto.PropertyViewDto;
 import ru.kolesnev.dto.ThermalPropertyDeleteDto;
 import ru.kolesnev.dto.ThermalPropertyDto;
 import ru.kolesnev.service.IsolationService;
-import ru.kolesnev.service.ThermalResistanceService;
 
 import java.io.File;
 import java.util.List;
@@ -39,8 +38,6 @@ import java.util.UUID;
 public class IsolationController {
 
     private final IsolationService isolationService;
-    private final ThermalResistanceService thermalResistanceService;
-
 
     @GET
     @Path("/{id}")
@@ -119,16 +116,5 @@ public class IsolationController {
             name = "ThermalPropertyDto") @Valid ThermalPropertyDeleteDto dto) {
         isolationService.deleteProperty(dto);
         return Response.status(Response.Status.OK).build();
-    }
-
-    @POST
-    @RolesAllowed("admin")
-    @Path("/resistance")
-    @Transactional
-    @Operation(description = "Задание теплового сопротивления")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createIsolation(File file) {
-        thermalResistanceService.readData(file);
-        return Response.status(Response.Status.CREATED).build();
     }
 }
