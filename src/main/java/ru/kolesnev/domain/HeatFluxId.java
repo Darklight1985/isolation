@@ -26,4 +26,5 @@ public class HeatFluxId {
 
     @Column(name = "nominal_diameter")
     private Integer nominalDiameter;
+    
 }

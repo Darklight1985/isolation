@@ -11,6 +11,7 @@ quarkus:
     enable: true
   swagger-ui:
     enable: true
+    always-include: true
   http:
     port: 8080
     auth:
