@@ -2,7 +2,6 @@ package ru.kolesnev.csv;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

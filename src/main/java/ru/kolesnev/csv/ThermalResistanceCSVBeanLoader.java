@@ -1,12 +1,10 @@
 package ru.kolesnev.csv;
 
-import com.opencsv.bean.CsvBindByPosition;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.kolesnev.domain.ThermalResistance;
 import ru.kolesnev.domain.ThermalResistanceId;
-import ru.kolesnev.enums.SurfaceType;
 import ru.kolesnev.repository.ThermalResistanceRepository;
 
 import java.util.List;
@@ -17,7 +15,7 @@ import java.util.List;
 @Slf4j
 public class ThermalResistanceCSVBeanLoader extends CSVBeanLoader {
 
-    private final String fileName = "csv/thermal_resistance.csv";
+    private final String fileName = "main/csv/thermal_resistance.csv";
     private final ThermalResistanceRepository repository;
 
     @Override
