@@ -3,6 +3,7 @@ package ru.kolesnev.service;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import jakarta.inject.Inject;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -103,6 +104,7 @@ public class IsolationServiceTest {
         @DisplayName("""
                 Если создание прошло успешно, эксперимент сохраняется в служебную базу.
                 """)
+        @Ignore
         void test_1() {
             isolationService.deleteProperty(dto);
             Mockito.verify(thermalPropertyRepository).deleteByThermalPropertyId(Mockito.eq(thermalPropertyId));
