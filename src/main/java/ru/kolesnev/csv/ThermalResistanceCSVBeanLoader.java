@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 public class ThermalResistanceCSVBeanLoader extends CSVBeanLoader {
 
-    private final String fileName = "main/csv/thermal_resistance.csv";
+    private final String fileName = "csv/thermal_resistance.csv";
     private final ThermalResistanceRepository repository;
 
     @Override
