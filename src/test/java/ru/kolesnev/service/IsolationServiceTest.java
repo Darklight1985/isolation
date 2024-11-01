@@ -104,7 +104,6 @@ public class IsolationServiceTest {
         @DisplayName("""
                 Если создание прошло успешно, эксперимент сохраняется в служебную базу.
                 """)
-        @Ignore
         void test_1() {
             isolationService.deleteProperty(dto);
             Mockito.verify(thermalPropertyRepository).deleteByThermalPropertyId(Mockito.eq(thermalPropertyId));
