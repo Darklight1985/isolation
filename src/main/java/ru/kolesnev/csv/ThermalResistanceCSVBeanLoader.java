@@ -1,6 +1,7 @@
 package ru.kolesnev.csv;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.resource.spi.ConfigProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.kolesnev.domain.ThermalResistance;
@@ -15,7 +16,9 @@ import java.util.List;
 @Slf4j
 public class ThermalResistanceCSVBeanLoader extends CSVBeanLoader {
 
-    private final String fileName = "csv/thermal_resistance.csv";
+    @ConfigProperty(defaultValue = "csv-location")
+    private final String csvLocation;
+    private final String fileName = csvLocation + "csv/thermal_resistance.csv";
     private final ThermalResistanceRepository repository;
 
     @Override

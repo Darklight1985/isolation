@@ -1,6 +1,7 @@
 package ru.kolesnev.csv;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.resource.spi.ConfigProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.kolesnev.domain.HeatFlux;
@@ -14,7 +15,9 @@ import java.util.List;
 @Slf4j
 public class HeatFluxCSVBeanLoader extends CSVBeanLoader {
 
-    private final String fileName = "csv/thermal_flux.csv";
+    @ConfigProperty(defaultValue = "csv-location")
+    private final String csvLocation;
+    private final String fileName = csvLocation + "csv/thermal_flux.csv";
     private final HeatFluxRepository repository;
 
     @Override
