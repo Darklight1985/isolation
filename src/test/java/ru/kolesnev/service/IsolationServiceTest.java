@@ -24,7 +24,7 @@ import java.util.UUID;
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 
 @QuarkusTest
-@QuarkusTestResource(value = CockroachDBTestResource.class, restrictToAnnotatedClass = true)
+//QuarkusTestResource(value = CockroachDBTestResource.class, restrictToAnnotatedClass = true)
 @DisplayName("При создании эксперимента:")
 public class IsolationServiceTest {
 
