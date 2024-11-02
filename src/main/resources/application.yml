@@ -24,13 +24,26 @@ quarkus:
 
 "%test":
   quarkus:
-    datasource:
-      jdbc:
-        url: jdbc:postgresql://database:5432/isolation
-      db-kind: postgresql
-      username: postgres
-      password: password
-#    host: 0.0.0.0
+    flyway:
+      locations: test_db/migration
+      sql-migration-prefix: test_
+ #   datasource:
+#      devservices:
+ #       image-name: postgres:15.2-alpine
+      #    jdbc:
+   #     url: jdbc:h2:mem:default
+  #    db-kind: h2
+  #    driver: org.h2.driver
+     # username: postgres
+    #  password: password
+ #   http:
+#      test-port: 0
+    hibernate-orm:
+      database:
+        generation:
+          halt-on-error: true
+
+    #    host: 0.0.0.0
   #  cors:
    #  ~: true
    #   origins: http://localhost:3000,http://localhost:9090

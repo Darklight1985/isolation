@@ -1,5 +1,6 @@
 package ru.kolesnev.service;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import jakarta.inject.Inject;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.kolesnev.CockroachDBTestResource;
 import ru.kolesnev.domain.Isolation;
 import ru.kolesnev.domain.ThermalProperty;
 import ru.kolesnev.domain.ThermalPropertyId;
@@ -22,6 +24,7 @@ import java.util.UUID;
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 
 @QuarkusTest
+@QuarkusTestResource(value = CockroachDBTestResource.class, restrictToAnnotatedClass = true)
 @DisplayName("При создании эксперимента:")
 public class IsolationServiceTest {
 
