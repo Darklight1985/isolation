@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 public class HeatFluxCSVBeanLoader extends CSVBeanLoader {
 
-    private final String fileName = "csv/thermal_flux.csv";
+    private final String fileName = "deployments/app/isolation-1.0-SNAPSHOT.jar/csv/thermal_flux.csv";
     private final HeatFluxRepository repository;
 
     @Override
