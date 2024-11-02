@@ -21,7 +21,7 @@ quarkus:
       format-sql: true
     database:
       generation: update
-csv-location: deployments/app/isolation-1.0-SNAPSHOT.jar
+csv-location: deployments/
 
 "%test":
   quarkus:

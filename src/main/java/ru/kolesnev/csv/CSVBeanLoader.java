@@ -24,13 +24,13 @@ public abstract class CSVBeanLoader<T extends CSVBean> {
     public abstract String getPath();
 
     public List<T> simplePositionBeanExample() throws Exception {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(getPath()).getFile());
+        //ClassLoader classLoader = getClass().getClassLoader();
+      //  File file = new File(classLoader.getResource(getPath()).getFile());
 
-     //   URL is = getFileAsIOStream(getFileName());
-        //Path uri = Paths.get(is.toURI());
-        String string = file.getAbsolutePath();
-        Path uri = Paths.get(string);
+        URL is = getFileAsIOStream(getFileName());
+        Path uri = Paths.get(is.toURI());
+       // String string = file.getAbsolutePath();
+      //  Path uri = Paths.get(string);
 
         List<T> lines;
         try (Reader reader = Files.newBufferedReader(uri)) {
