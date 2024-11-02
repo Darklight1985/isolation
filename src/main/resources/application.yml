@@ -1,7 +1,7 @@
 quarkus:
   datasource:
     jdbc:
-      url: jdbc:postgresql://localhost:5432/isolation
+      url: jdbc:postgresql://localhost:5433/isolation
     db-kind: postgresql
     username: postgres
     password: password
@@ -21,6 +21,15 @@ quarkus:
       format-sql: true
     database:
       generation: update
+
+"%test":
+  quarkus:
+    datasource:
+      jdbc:
+        url: jdbc:postgresql://localhost:5433/isolation
+      db-kind: postgresql
+      username: postgres
+      password: password
 #    host: 0.0.0.0
   #  cors:
    #  ~: true
