@@ -34,12 +34,12 @@ public class StartUp {
             User.add("admin", "admin", "admin");
         }
 
-        lists.forEach(csvBean -> {
-            String name = csvBean.getFileName();
-            if (!cvsMigrationRepository.isExists(name)) {
-                csvBean.run();
-                cvsMigrationRepository.save(new CSVMigration(name, LocalDateTime.now()));
-            }
-        });
+//        lists.forEach(csvBean -> {
+//            String name = csvBean.getFileName();
+//            if (!cvsMigrationRepository.isExists(name)) {
+//                csvBean.run();
+//                cvsMigrationRepository.save(new CSVMigration(name, LocalDateTime.now()));
+//            }
+//        });
     }
 }
