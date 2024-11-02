@@ -21,7 +21,7 @@ quarkus:
       format-sql: true
     database:
       generation: update
-csv-location:
+csv-location: deployments/app/isolation-1.0-SNAPSHOT.jar
 
 "%test":
   quarkus:
@@ -39,7 +39,7 @@ csv-location:
       database:
         generation:
           create-schemas: true
-  csv-location: deployments/app/isolation-1.0-SNAPSHOT.jar/
+  csv-location: /
     #    host: 0.0.0.0
   #  cors:
    #  ~: true

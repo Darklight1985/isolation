@@ -21,9 +21,11 @@ public abstract class CSVBeanLoader<T extends CSVBean> {
 
     public abstract void run();
 
+    public abstract String getPath();
+
     public List<T> simplePositionBeanExample() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(getFileName()).getFile());
+        File file = new File(classLoader.getResource(getPath()).getFile());
 
      //   URL is = getFileAsIOStream(getFileName());
         //Path uri = Paths.get(is.toURI());

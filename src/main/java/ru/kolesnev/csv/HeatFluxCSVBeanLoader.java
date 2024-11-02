@@ -1,9 +1,9 @@
 package ru.kolesnev.csv;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.resource.spi.ConfigProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import ru.kolesnev.domain.HeatFlux;
 import ru.kolesnev.domain.HeatFluxId;
 import ru.kolesnev.repository.HeatFluxRepository;
@@ -15,9 +15,9 @@ import java.util.List;
 @Slf4j
 public class HeatFluxCSVBeanLoader extends CSVBeanLoader {
 
-    @ConfigProperty(defaultValue = "csv-location")
-    private final String csvLocation;
-    private final String fileName = csvLocation + "csv/thermal_flux.csv";
+    @ConfigProperty(name = "csv-location")
+    private String csvLocation;
+    private final String fileName = "csv/thermal_flux.csv";
     private final HeatFluxRepository repository;
 
     @Override
@@ -39,5 +39,10 @@ public class HeatFluxCSVBeanLoader extends CSVBeanLoader {
                                 .heatFluxId(new HeatFluxId((short) el.exampleColTwo, el.exampleColFour, el.exampleColFive, el.exampleColOne))
                                 .build()).toList();
         repository.saveAll(thermalResistanceList);
+    }
+
+    @Override
+    public String getPath() {
+        return csvLocation + fileName;
     }
 }
