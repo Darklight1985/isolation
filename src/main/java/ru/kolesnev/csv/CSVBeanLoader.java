@@ -27,28 +27,29 @@ public abstract class CSVBeanLoader<T extends CSVBean> {
         //ClassLoader classLoader = getClass().getClassLoader();
       //  File file = new File(classLoader.getResource(getPath()).getFile());
 
-        URL is = getFileAsIOStream(getFileName());
-        Path uri = Paths.get(is.toURI());
+        InputStream is = getFileAsIOStream(getFileName());
+    //    Path uri = Paths.get(is.toURI());
        // String string = file.getAbsolutePath();
       //  Path uri = Paths.get(string);
 
         List<T> lines;
-        try (Reader reader = Files.newBufferedReader(uri)) {
-            CsvToBean<T> cb = new CsvToBeanBuilder<T>(reader)
+        try (InputStreamReader reader = new InputStreamReader(is);
+        BufferedReader bufferedReader = new BufferedReader(reader);) {
+            CsvToBean<T> cb = new CsvToBeanBuilder<T>(bufferedReader)
                     .withType(getClazz())
                     .withSeparator(' ')
                     .build();
 
-            lines =  cb.parse();
+             lines =  cb.parse();
         }
         return lines;
     }
 
-    private URL getFileAsIOStream(final String fileName)
+    private InputStream getFileAsIOStream(final String fileName)
     {
-        URL ioStream = super.getClass()
+        InputStream ioStream = super.getClass()
                 .getClassLoader()
-                .getResource(fileName);
+                .getResourceAsStream(fileName);
 
 
         if (ioStream == null) {
