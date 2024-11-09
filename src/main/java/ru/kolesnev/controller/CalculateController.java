@@ -2,7 +2,6 @@ package ru.kolesnev.controller;
 
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
@@ -40,8 +39,8 @@ public class CalculateController {
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public String calculateThickness(@Valid @Parameter(description = "Параметры для расчета",
-            name = "IsolationCreateDto") CalculateThicknessDto dto) {
+    public String calculateThickness(@Valid @Parameter(description = "Параметры для расчета", required = true)
+                                         CalculateThicknessDto dto) {
         return calculationService.calculateThick(dto);
     }
 
