@@ -21,20 +21,35 @@ quarkus:
       format-sql: true
     database:
       generation: update
+  native:
+    resources:
+      includes: publicKey.pem
+smallrye:
+  jwt:
+    sign:
+      key:
+        location: classpath:privateKey.pem
+token:
+  expires:
+    in: 100
+
+mp:
+  jwt:
+    verify:
+      publickey:
+        location: publicKey.pem
+    issuer: https://example.com/issuer
 csv-location: /
 
 "%test":
   quarkus:
     flyway:
-      locations: test_db/migration
+      locations: classpath:test_db/migration/
       sql-migration-prefix: test_
     datasource:
       jdbc:
         url: jdbc:h2:mem:default
       db-kind: h2
-  #    driver: org.h2.driver
-     # username: postgres
-    #  password: password
     hibernate-orm:
       database:
         generation:

@@ -4,6 +4,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -53,7 +54,7 @@ public class IsolationController {
     @PermitAll
     @Operation(description = "Получение тепловых свойств изоляции по списку идентифкаторов")
     @Produces(MediaType.APPLICATION_JSON)
-    public PropertyViewDto getPropertys(@QueryParam("ids") @Parameter(description = "Список идентификаторов") List<UUID> ids) {
+    public PropertyViewDto getPropertys(@NotNull @QueryParam("ids") @Parameter(description = "Список идентификаторов") List<UUID> ids) {
        return isolationService.getPropertys(ids);
     }
 
@@ -89,6 +90,7 @@ public class IsolationController {
     }
 
     @PUT
+    @RolesAllowed("admin")
     @Operation(description = "Обновление марки тепловой изоляции")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateIsolation(@Valid @Parameter(description = "Параметры для обновления материала изоляции",

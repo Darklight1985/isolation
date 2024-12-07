@@ -44,14 +44,14 @@ public class User extends PanacheEntity {
         return false;
     }
 
-    public static boolean existUser(UserLoginDto dto) {
+    public static User existUser(UserLoginDto dto) {
         User user = find("select u from User u where u.username = :username",
                 Parameters.with("username", dto.getUsername())).firstResult();
         if (user != null) {
-            if (BcryptUtil.matches(dto.getPassword(), user.password)) {
-                return true;
+            if (!BcryptUtil.matches(dto.getPassword(), user.password)) {
+                return null;
             }
         }
-        return false;
+        return user;
     }
 }
