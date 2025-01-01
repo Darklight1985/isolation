@@ -4,7 +4,6 @@ import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import jakarta.inject.Inject;
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -25,7 +24,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 
 @QuarkusTest
 //QuarkusTestResource(value = CockroachDBTestResource.class, restrictToAnnotatedClass = true)
-@DisplayName("При создании эксперимента:")
+@DisplayName("При создании изоляции и её свойств:")
 public class IsolationServiceTest {
 
     @Inject
@@ -64,7 +63,7 @@ public class IsolationServiceTest {
 
         @Test
         @DisplayName("""
-                Если создание прошло успешно, эксперимент сохраняется в служебную базу.
+                Если создание прошло успешно, новая марка изоляции сохраняется в служебную базу.
                 """)
         void test_1() {
             isolationService.createProperty(dto);
@@ -82,7 +81,7 @@ public class IsolationServiceTest {
 
         @Test
         @DisplayName("""
-                Если создание прошло успешно, эксперимент сохраняется в служебную базу.
+                Если удаление прошло успешно, изоляция удаляется из базы.
                 """)
         void test_1() {
             isolationService.deleteIsolation(ISOLATION_ID);
@@ -105,7 +104,7 @@ public class IsolationServiceTest {
 
         @Test
         @DisplayName("""
-                Если создание прошло успешно, эксперимент сохраняется в служебную базу.
+                Если удаление прошло успешно, тепловые свойства изоялции удаляются из базы.
                 """)
         void test_1() {
             isolationService.deleteProperty(dto);
