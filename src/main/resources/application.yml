@@ -1,4 +1,6 @@
 quarkus:
+  application:
+    name: isolation-back
   datasource:
     jdbc:
       url: jdbc:postgresql://localhost:5433/isolation
@@ -31,7 +33,7 @@ smallrye:
         location: classpath:privateKey.pem
 token:
   expires:
-    in: 100
+    in: 86400
 
 mp:
   jwt:

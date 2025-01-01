@@ -1,5 +1,6 @@
 package ru.kolesnev.service;
 
+import io.quarkus.runtime.Application;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -37,7 +38,7 @@ public class UserService {
             throw new ForbiddenException("username or password not correct");
         }
         String role = user.role;
-        String accessToken = Jwt.issuer("https://example.com/issuer")
+        String accessToken = Jwt.issuer(Application.APP_CLASS_NAME)
                 .upn(user.username)
                 .groups(new HashSet<>(Arrays.asList(role)))
                 .claim(Claims.birthdate.name(), "2001-07-13")
