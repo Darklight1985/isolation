@@ -28,7 +28,6 @@ import ru.kolesnev.dto.ThermalPropertyDeleteDto;
 import ru.kolesnev.dto.ThermalPropertyDto;
 import ru.kolesnev.service.IsolationService;
 
-import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
