@@ -26,13 +26,13 @@ public class CalculationService {
 
 
     public String calculateThick(CalculateThicknessDto dto) {
-        if (thermalResistanceRepository.checkVoid().isEmpty() || heatFluxRepository.checkVoid().isEmpty()) {
-            throw new CustomException("Need to define heat flux and thermal resistance for  calculation");
-        }
         return ObjectType.FLAT_WALL.equals(dto.getOuterCondition().getObjectType()) ? calculateFlatWall(dto) : calculateDiameter(dto);
     }
 
     private String calculateFlatWall(CalculateThicknessDto dto) {
+        if (heatFluxRepository.checkVoid().isEmpty()) {
+            throw new CustomException("Need to define heat flux for  calculation");
+        }
         UUID isolationId = dto.getIsolation();
 
         //Проверку по айдишнику нужно, что такая изоляция есть
@@ -51,6 +51,10 @@ public class CalculationService {
     }
 
     private String calculateDiameter(CalculateThicknessDto dto) {
+        if (thermalResistanceRepository.checkVoid().isEmpty() || heatFluxRepository.checkVoid().isEmpty()) {
+            throw new CustomException("Need to define heat flux and thermal resistance for  calculation");
+        }
+
         int diameter = dto.getDiameter();
         short temperature = dto.getInnerTemperature();
 

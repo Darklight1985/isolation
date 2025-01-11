@@ -1,9 +1,11 @@
 package ru.kolesnev.repository;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
+import ru.kolesnev.config.CustomResource;
 import ru.kolesnev.domain.Isolation;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.UUID;
 
 @QuarkusTest
 @Transactional
+@CustomResource
 @DisplayName("Тесты для методов класса IsolationRepository")
 public class IsolationRepoTest {
 

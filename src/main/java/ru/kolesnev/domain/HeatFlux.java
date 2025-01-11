@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Нормированная плотность теплового потока
+ *
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +28,9 @@ public class HeatFlux {
     @EmbeddedId
     private HeatFluxId heatFluxId;
 
+    /**
+     * Величина плотности
+     */
     @Column(name = "heat_flux_value")
     private Integer heatFluxValue;
 }

@@ -19,7 +19,7 @@ public class ConditionDto {
     @JsonProperty("surface_type")
     @NotNull(message = "Необходимо задать тип поверхности")
     private SurfaceType surfaceType;
-    @Schema(description = "Флан внутри помещения ли находится объект")
+    @Schema(description = "Флаг,что внутри помещения ли находится объект")
     private boolean indoors;
     @Schema(description = "Флаг, что объект в условиях доолгой работы")
     @JsonProperty("long_work")
